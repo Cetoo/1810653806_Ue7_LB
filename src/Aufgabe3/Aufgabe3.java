@@ -8,25 +8,31 @@ public class Aufgabe3
 {
     public static void main(String[] args)
     {
-        try {
-            if(checkEmail()){
-                System.out.println("Die eingegebene Adresse ist gültig");
-            } else {
-                System.out.println("Die Eingabe ist keine gültige Adresse");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String eingabe = JOptionPane.showInputDialog("Um den Newsletter zu abonieren geben Sie bitte Ihre E-Mail Adresse ein.");
 
+        try
+        {
+            checkEmail(eingabe);
+            JOptionPane.showMessageDialog(null, "Ihre E-Mail Adresse ist gültig. Sie erhalten nun die neuesten News auf folgende Adresse: " + eingabe);
+        }
+        catch (Exception e)
+        //hier ist die neu erstelle exception
+        {
+            JOptionPane.showMessageDialog(null, "Tut uns leid dies war keine gültige E-Mail Adresse.");
+        }
     }
 
-    private static boolean checkEmail() throws Exception {
-        String email = JOptionPane.showInputDialog("Bitte geben Sie Ihre Email ein!");
+    private static void checkEmail(String s) throws Exception
+    {
+        Pattern pattern = Pattern.compile("[\\w|-]+@\\w[\\w|-]*\\.[a-z]{2,3}$");
+        Matcher m = pattern.matcher(s);
 
-        Pattern pattern  = Pattern.compile("[\\w|-]+@\\w[\\w|-]*\\.[a-z]{2,3}$");
-        Matcher m = pattern.matcher(email);
+        if(!m.find())
+            //wenn es NICHT findet dann erstelle eine neue Exception
+        {
+            throw new Exception();
+        }
 
-        return m.find();
     }
 }
 
